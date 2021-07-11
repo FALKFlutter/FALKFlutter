@@ -1,6 +1,11 @@
 const express = require("express")
-const mongoose = require("mongoose")
-const{MONGOURL} = process.env.MONGOURL || require("./keys");
+const mongoose = require("mongoose");
+let MONGOURL;
+if(process.env.MONGOURL){
+    MONGOURL = process.env.MONGOURL
+}else{
+    MONGOURL = require('./keys').MONGOURL;
+}
 /**
  * || = 0 "" null undefined
  * ?? = null undefined
