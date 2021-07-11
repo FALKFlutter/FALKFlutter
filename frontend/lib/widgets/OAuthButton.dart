@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 class OAuthButton extends StatelessWidget {
   final Image iconImage;
   final String text;
@@ -11,8 +11,12 @@ class OAuthButton extends StatelessWidget {
     return Padding(
         padding: EdgeInsets.fromLTRB(20.0, this.padding, 20.0, this.padding),
         child: TextButton(
-            onPressed: () {
-              print('Copp');
+            onPressed:  () async {
+              const String url = 'https://jjdeveloping.nl';
+              if(await canLaunch(url)){
+                await launch(url);
+              }else{
+              }
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -48,11 +48,11 @@ class WelcomePage extends StatelessWidget {
                       decoration: TextDecoration.none,
                       fontFamily: 'Poppins'),
                 ),
-                SizedBox(height: 4),
+                SizedBox(height: 2),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Create new friends or find your loved one on this app!',
+                    'Create new friends or find your loved one!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
