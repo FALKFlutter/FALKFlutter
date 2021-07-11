@@ -1,11 +1,16 @@
 const express = require("express")
 const mongoose = require("mongoose")
-const{MONGOURL} = require("./keys")
+const{MONGOURL} = process.env.MONGOURL || require("./keys");
+/**
+ * || = 0 "" null undefined
+ * ?? = null undefined
+ * 
+ */
 
 const app = express()
 const PORT = process.env.PORT || 3000
 
-mongoose.connect(process.env.MONGOURL || MONGOURL, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(MONGOURL, {useNewUrlParser: true, useUnifiedTopology: true})
 
 mongoose.connection.once("open",()=>{
     console.log("succesfully connected to db")
