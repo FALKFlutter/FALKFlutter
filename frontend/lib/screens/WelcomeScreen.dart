@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/colors/FalkColors.dart';
+import 'package:frontend/functions/googleauth.dart';
+import 'package:frontend/screens/screens.dart';
 import 'package:frontend/widgets/widgets.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -62,8 +64,32 @@ class WelcomePage extends StatelessWidget {
                         fontFamily: 'Poppins'),
                   ),
                 ),
-                SizedBox(height: 50),
-                OAuthButton(null, Image.asset('assets/Icons/GitHub-Mark-32px.png'), 'SIGN IN WITH GITHUB'),
+                SizedBox(height: 100),
+                OAuthButton(
+                    null,
+                    Image.asset('assets/Icons/GitHub-Mark-32px.png'),
+                    'SIGN IN WITH GITHUB', pressCallback: () {
+                  print("test");
+                }),
+                OAuthButton(
+                  null,
+                  Image.asset(
+                    'assets/Icons/google.png',
+                    width: 30,
+                  ),
+                  'SIGN IN WITH GOOGLE',
+                  pressCallback: () async {
+                    final user = await GoogleAuthFALK.login();
+                    print(user);
+                    if (user != null) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TestScreen(null, user)));
+                    }
+                  },
+                  padding: 5,
+                ),
               ],
             ),
           )

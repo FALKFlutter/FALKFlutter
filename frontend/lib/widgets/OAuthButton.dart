@@ -4,20 +4,15 @@ class OAuthButton extends StatelessWidget {
   final Image iconImage;
   final String text;
   double padding;
-  OAuthButton(Key? key, this.iconImage, this.text, {this.padding = 20.0}) : super(key: key);
+  void Function() pressCallback;
+  OAuthButton(Key? key, this.iconImage, this.text, {this.padding = 20.0, required this.pressCallback}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.fromLTRB(20.0, this.padding, 20.0, this.padding),
         child: TextButton(
-            onPressed:  () async {
-              const String url = 'https://jjdeveloping.nl';
-              if(await canLaunch(url)){
-                await launch(url);
-              }else{
-              }
-            },
+            onPressed:  this.pressCallback,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
