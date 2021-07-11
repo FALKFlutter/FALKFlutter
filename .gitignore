@@ -11,10 +11,12 @@ doc/api/
 frontend/*.dart.js
 frontend/*.info.json 
 frontend/*.js        
-            
+*.jks
 frontend/*.js_
 frontend/*.js.deps
 frontend/*.js.map
+
+frontend/android
 
 .flutter-plugins
 .flutter-plugins-dependencies
