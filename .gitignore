@@ -1,5 +1,6 @@
 #Backend
 /node_modules
+backend/keys.js
 #Frontend
 .dart_tool/
 .packages
