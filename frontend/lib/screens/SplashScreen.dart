@@ -1,17 +1,49 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/colors/FalkColors.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:frontend/screens/screens.dart';
+
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 
 class SplashScreen extends StatelessWidget {
   int duration = 3;
-  Widget goToPage;
-  SplashScreen(Key? key, this.duration, this.goToPage) : super(key: key);
+  dynamic goToPage;
+  SplashScreen(Key? key, this.duration) : super(key: key);
   @override
+  late Box<dynamic> mainData;
+
+  Future openBox() async {
+    var dir = await getApplicationDocumentsDirectory();
+    try {
+      Hive.init(dir.path);
+      this.mainData = await Hive.openBox('mainData');
+    } catch (e) {
+      print(e);
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
+
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: duration), () {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => this.goToPage));
-    });
+    this.openBox().then((value) => {
+          if (this.mainData.get('user') == null)
+            {
+              print('null'),
+              Future.delayed(Duration(seconds: duration), () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => WelcomePage()));
+              })
+            }else{
+              print('!null'),
+              Future.delayed(Duration(seconds: duration), () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TestScreen(null, this.mainData.get('user'))));
+              })
+            }
+        });
     return Container(
         color: FalkColors.MAIN,
         child: Column(
@@ -30,7 +62,7 @@ class SplashScreen extends StatelessWidget {
                     fontSize: 28,
                     fontFamily: 'Poppins')),
             SizedBox(height: 100),
-            const SpinKitCubeGrid( 
+            const SpinKitCubeGrid(
               duration: Duration(milliseconds: 1000),
               color: Colors.white,
               size: 50.0,

@@ -1,12 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/colors/FalkColors.dart';
 import 'package:frontend/functions/googleauth.dart';
 import 'package:frontend/screens/screens.dart';
 import 'package:frontend/widgets/widgets.dart';
-
+import 'package:hive_flutter/hive_flutter.dart';
 class WelcomePage extends StatelessWidget {
-  const WelcomePage({Key? key}) : super(key: key);
-
+  WelcomePage({Key? key}) : super(key: key);
+  final Box<dynamic> mainBox = Hive.box('mainData');
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -80,12 +82,18 @@ class WelcomePage extends StatelessWidget {
                   'SIGN IN WITH GOOGLE',
                   pressCallback: () async {
                     final user = await GoogleAuthFALK.login();
-                    print(user);
+                    print('User: ' + jsonDecode(jsonEncode(user.toString())));
                     if (user != null) {
+                    dynamic JSONUser = {
+                      "displayName": user.displayName,
+                      "email": user.email,
+                      "photoUrl": user.photoUrl,
+                    };
+                    this.mainBox.put('user', JSONUser);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => TestScreen(null, user)));
+                              builder: (context) => TestScreen(null, JSONUser)));
                     }
                   },
                   padding: 5,
