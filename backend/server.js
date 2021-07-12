@@ -1,13 +1,7 @@
 const express = require("express")
 const mongoose = require("mongoose");
-// let MONGOURL = MONGOURL === process.env.MONGOURL ? process.env.MONGOURL :require('./keys').MONGOURL 
 
-let MONGOURL;
-if(process.env.MONGOURL){
-    MONGOURL = process.env.MONGOURL
-}else{
-    MONGOURL = require('./keys').MONGOURL;
-}
+const MONGOURL = process.env.MONGOURL ? process.env.MONGOURL :require('./keys').MONGOURL 
 
 const app = express()
 const PORT = process.env.PORT || 4000
