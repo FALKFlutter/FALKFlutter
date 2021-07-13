@@ -6,7 +6,7 @@ const User = mongoose.model("User")
 module.exports= (req,res,next)=>{
     const {authorization} = req.headers
     if(!authorization){
-        res.status(422).json({error: "You must be logged in to view this page"})
+        return res.status(422).json({error: "You must be logged in to view this page"})
 
     }
     const authToken = authorization.split(" ")[1]
