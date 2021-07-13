@@ -3,6 +3,9 @@ const router = express.Router()
 const mongoose = require("mongoose")
 const User = mongoose.model("User")
 const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
+const {JWT_SECRET}= require("../keys")
+const requireLogin = require("../middleware/requireLogin")
 
 router.get("/",(req,res)=>{
     res.send("Succes bitch")
@@ -13,8 +16,8 @@ router.get("/register",(req,res)=>{
 })
 
 router.post("/register",(req,res)=>{
-    const {name,email,password} = req.body
-    if(!name || !email || !password){
+    const {name,email,password,dayOfBirth,country} = req.body
+    if(!name || !email || !password || !country || !dayOfBirth){
         return res.status(422).json({error: "Please fill in all fields"})
     }
     User.findOne({email:email}).then((foundUser)=>{
@@ -25,15 +28,17 @@ router.post("/register",(req,res)=>{
             const user = new User({
                 name,
                 email,
-                password: hashedPassword
+                password: hashedPassword,
+                dayOfBirth,
+                country
             })
         
             user.save().then(()=>{
                 res.json({message: "Succesfully created user"})
-            }).catch(err=>console.log(err))
-        }).catch(err=>console.log(err))
+            }).catch(err=>res.json({err}))
+        }).catch(err=>res.json({err}))
         
-    }).catch(err=>console.log(err))
+    }).catch(err=>res.json({err}))
     
 
 })
@@ -53,12 +58,18 @@ router.post("/login",(req,res)=>{
         }
         bcrypt.compare(password, foundUser.password).then(matchingPassword=>{
             if(matchingPassword){
-                return res.json({message: "Succesfully logged in"})
+                const token = jwt.sign({_id: foundUser._id}, JWT_SECRET)
+                return res.json(token)
             }else{
                 return res.status(422).json({error: "Invalid email or password"})
             }
-        }).catch(err=>console.log(err))
-    }).catch(err=>console.log(err))
+        }).catch(err=>res.json(err))
+    }).catch(err=>res.json(err))
+})
+
+router.get("/protected",requireLogin,(req,res)=>{
+    const{name} = req.user
+    res.send(`Hello ${name}`)
 })
 
 
