@@ -20,10 +20,9 @@ class EmailAuth {
     }));
     var jsonBody = jsonDecode(response.body);
     if(response.statusCode < 200 || response.statusCode > 300){
-      print(response.request);
       Fluttertoast.showToast(msg: jsonBody['error']);
     }else{
-      print('Login');
+      Fluttertoast.showToast(msg: jsonBody['message']);
     }
   }
 }
