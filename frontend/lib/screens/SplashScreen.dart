@@ -33,14 +33,14 @@ class SplashScreen extends StatelessWidget {
             {
               print('null'),
               Future.delayed(Duration(seconds: duration), () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => WelcomePage()));
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder: (context) => new WelcomePage()), (Route<dynamic> route) => false);
               })
             }else{
               print('!null'),
               Future.delayed(Duration(seconds: duration), () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TestScreen(null, this.mainData.get('user'))));
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder: (context) => new TestScreen(null, this.mainData.get('user'))), (Route<dynamic> route) => false);
               })
             }
         });

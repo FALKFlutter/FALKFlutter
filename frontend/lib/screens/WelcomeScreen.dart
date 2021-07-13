@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/colors/FalkColors.dart';
-import 'package:frontend/functions/googleauth.dart';
+import 'package:frontend/functions/GoogleAuth.dart';
 import 'package:frontend/screens/screens.dart';
 import 'package:frontend/widgets/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
 class WelcomePage extends StatelessWidget {
   WelcomePage({Key? key}) : super(key: key);
   final Box<dynamic> mainBox = Hive.box('mainData');
@@ -84,20 +85,27 @@ class WelcomePage extends StatelessWidget {
                     final user = await GoogleAuthFALK.login();
                     print('User: ' + jsonDecode(jsonEncode(user.toString())));
                     if (user != null) {
-                    dynamic JSONUser = {
-                      "displayName": user.displayName,
-                      "email": user.email,
-                      "photoUrl": user.photoUrl,
-                    };
-                    this.mainBox.put('user', JSONUser);
-                      Navigator.push(
+                      dynamic JSONUser = {
+                        "displayName": user.displayName,
+                        "email": user.email,
+                        "photoUrl": user.photoUrl,
+                      };
+                      this.mainBox.put('user', JSONUser);
+                      Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => TestScreen(null, JSONUser)));
+                          new MaterialPageRoute(
+                              builder: (context) =>
+                                  new TestScreen(null, JSONUser)), (Route<dynamic> route) => false);
                     }
                   },
                   padding: 5,
                 ),
+                OAuthButton(
+                    null,
+                    Icon(Icons.email),
+                    'SIGN IN WITH EMAIL', pressCallback: () {
+                    Navigator.push(context, new MaterialPageRoute(builder: (context) => new EmailSignUp()));
+                }, iconSpacing: 10,),
               ],
             ),
           )

@@ -39,8 +39,8 @@ class TestScreen extends StatelessWidget {
           TextButton(
             onPressed: () async {
               await Hive.box('mainData').delete('user');
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => WelcomePage()));
+              Navigator.pushAndRemoveUntil(context,
+                  MaterialPageRoute(builder: (context) => WelcomePage()), (Route<dynamic> route) => false);
             },
             child: Text('Logout',
                 style: TextStyle(

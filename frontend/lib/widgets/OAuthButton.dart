@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 class OAuthButton extends StatelessWidget {
-  final Image iconImage;
+  final dynamic iconImage;
   final String text;
   double padding;
+  double iconSpacing;
   void Function() pressCallback;
-  OAuthButton(Key? key, this.iconImage, this.text, {this.padding = 20.0, required this.pressCallback}) : super(key: key);
+  OAuthButton(Key? key, this.iconImage, this.text, {this.padding = 20.0, required this.pressCallback, this.iconSpacing = 0.0}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class OAuthButton extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 this.iconImage,
-                SizedBox(width: 20),
+                SizedBox(width: 20 + this.iconSpacing),
                 Text(
                   this.text,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
