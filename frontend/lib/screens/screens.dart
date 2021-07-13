@@ -1,4 +1,5 @@
 export 'SplashScreen.dart';
 export 'WelcomeScreen.dart';
 export 'TestScreen.dart';
-export 'EmailSignUp.dart';
+export 'EmailSignIn.dart';
+export 'EmailRegister.dart';
