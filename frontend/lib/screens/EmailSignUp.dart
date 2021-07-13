@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:frontend/colors/FalkColors.dart';
 import 'package:frontend/functions/EmailAuth.dart';
 import 'package:frontend/widgets/widgets.dart';
@@ -11,6 +12,7 @@ class EmailSignUp extends StatefulWidget {
 class EmailForm extends State<EmailSignUp> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isLoading = false;
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -18,7 +20,6 @@ class EmailForm extends State<EmailSignUp> {
     passwordController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class EmailForm extends State<EmailSignUp> {
             children: [
               Center(
                   child: FALKTextBox(
-                    emailController,
+                emailController,
                 size.width * 0.85,
                 'Email',
                 Icon(
@@ -57,7 +58,7 @@ class EmailForm extends State<EmailSignUp> {
               ),
               Center(
                   child: FALKTextBox(
-                    passwordController,
+                passwordController,
                 size.width * 0.85,
                 'Password',
                 Icon(
@@ -73,7 +74,15 @@ class EmailForm extends State<EmailSignUp> {
                 width: size.width * 0.8,
                 child: TextButton(
                     onPressed: () {
-                      new EmailAuth(emailController.text, passwordController.text).login();
+                      setState(() {
+                        isLoading = true;
+                      });
+                      new EmailAuth(
+                              emailController.text, passwordController.text)
+                          .login()
+                          .whenComplete(() => setState(() {
+                                isLoading = false;
+                              }));
                     },
                     child: Text(
                       'Login',
@@ -96,7 +105,18 @@ class EmailForm extends State<EmailSignUp> {
                                 RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16.0),
                         )))),
-              )
+              ),
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              Visibility(
+                visible: isLoading,
+                child: SpinKitCubeGrid(
+                  duration: Duration(milliseconds: 500),
+                  color: Colors.white,
+                  size: 50.0,
+                ),
+              ),
             ],
           )
         ],
