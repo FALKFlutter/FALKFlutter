@@ -33,7 +33,7 @@ class WelcomePage extends StatelessWidget {
                   child: ClipOval(
                     child: Container(
                       padding: EdgeInsets.all(10),
-                      color: Color(0x9529CDFF),
+                      color: Color(0x2AFFFFFF),
                       width: 90,
                       height: 90,
                       child: Image.asset(
