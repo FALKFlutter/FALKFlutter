@@ -8,20 +8,19 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const requireLogin = require("../middleware/requireLogin");
 
-const JWT_SECRET = process.env.JWT;
 
 router.get("/auth", (req, res) => {
   res.redirect(
     "https://github.com/login/oauth/authorize?client_id=" +
-      process.env.githubClientID
+      process.env.GITHUB_CLIENT_ID
   );
 });
 
 router.get("/oauth-callback", (req, res) => {
   const githubCode = req.query.code;
   const body = {
-    client_id: process.env.githubClientID,
-    client_secret: process.env.githubSecret,
+    client_id: process.env.GITHUB_CLIENT_ID,
+    client_secret: process.env.GITHUB_SECRET,
     code: githubCode,
   };
   const opts = { headers: { accept: "application/json" } };
@@ -117,7 +116,6 @@ router.post("/login", (req, res) => {
         .compare(password, foundUser.password)
         .then((matchingPassword) => {
           if (matchingPassword) {
-            const token = jwt.sign({ _id: foundUser._id }, JWT_SECRET);
             return res.json(token);
           } else {
             return res.status(422).json({ error: "Invalid email or password" });

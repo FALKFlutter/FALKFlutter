@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
       .json({ error: "You must be logged in to view this page" });
   }
   const authToken = authorization.split(" ")[1];
-  jwt.verify(authToken, JWT_SECRET, (err, payload) => {
+  jwt.verify(authToken, process.env.JWT_SECRET, (err, payload) => {
     if (err) return res.json({ error: "Unverified user" });
 
     const { _id } = payload;
