@@ -12,7 +12,15 @@ const userSchema = new mongoose.Schema({
     password:{
         type: String,
         required: true
-    }
+    },
+    country:{
+        type: String,
+        required: true
+    },
+    dateOfBirth:{
+        type: String,
+        required: true
+    }  
     
 })
 
