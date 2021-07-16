@@ -1,9 +1,8 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 
-const MONGOURL = process.env.MONGOURL
-  ? process.env.MONGOURL
-  : require("./keys").MONGOURL;
+const MONGOURL = process.env.MONGOURL;
 
 const app = express();
 const PORT = process.env.PORT || 4000;
