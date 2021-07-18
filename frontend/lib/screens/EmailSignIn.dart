@@ -44,7 +44,6 @@ class EmailForm extends State<EmailSignUp> {
             children: [
               Center(
                   child: FALKTextBox(
-                emailController,
                 size.width * 0.85,
                 'Email',
                 Icon(
@@ -53,13 +52,13 @@ class EmailForm extends State<EmailSignUp> {
                   size: 28,
                 ),
                 textAction: TextInputAction.next,
+                valController: emailController
               )),
               SizedBox(
                 height: size.height * 0.03,
               ),
               Center(
                   child: FALKTextBox(
-                passwordController,
                 size.width * 0.85,
                 'Password',
                 Icon(
@@ -67,6 +66,7 @@ class EmailForm extends State<EmailSignUp> {
                   color: Colors.white,
                   size: 28,
                 ),
+                  valController: passwordController
               )),
               SizedBox(
                 height: size.height * 0.03,

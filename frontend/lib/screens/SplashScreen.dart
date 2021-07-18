@@ -44,30 +44,43 @@ class SplashScreen extends StatelessWidget {
               })
             }
         });
+
     return Container(
-        color: FalkColors.MAIN,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/Icons/tiger.png',
-              width: 90.0,
-            ),
-            SizedBox(height: 1),
-            Text('FALK',
-                style: TextStyle(
-                    color: Colors.white,
-                    letterSpacing: 1.5,
-                    decoration: TextDecoration.none,
-                    fontSize: 28,
-                    fontFamily: 'Poppins')),
-            SizedBox(height: 100),
-            const SpinKitCubeGrid(
-              duration: Duration(milliseconds: 1000),
-              color: Colors.white,
-              size: 50.0,
-            )
-          ],
-        ));
+        child: Stack(alignment: Alignment.center, children: [
+      Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                  'assets/img/heartbg.jpg',
+                ),
+                fit: BoxFit.cover,
+                colorFilter:
+                    ColorFilter.mode(Colors.black87, BlendMode.xor))),
+      ),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/Icons/tiger.png',
+            width: 90.0,
+            color: Colors.white,
+          ),
+          SizedBox(height: 1),
+          Text('FALK',
+              style: TextStyle(
+                  color: Colors.white,
+                  letterSpacing: 1.5,
+                  decoration: TextDecoration.none,
+                  fontSize: 28,
+                  fontFamily: 'Poppins')),
+          SizedBox(height: 100),
+          const SpinKitCubeGrid(
+            duration: Duration(milliseconds: 1000),
+            color: Colors.white,
+            size: 50.0,
+          )
+        ],
+      ),
+    ]));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:frontend/colors/FalkColors.dart';
 import 'package:frontend/functions/EmailAuth.dart';
 import 'package:frontend/screens/screens.dart';
@@ -46,22 +47,21 @@ class EmailRegisterForm extends State<EmailRegister> {
             children: [
               Center(
                   child: FALKTextBox(
-                nameController,
                 size.width * 0.85,
                 'Name',
                 Icon(
-                  Icons.email_outlined,
+                  Icons.person,
                   color: Colors.white,
                   size: 28,
                 ),
                 textAction: TextInputAction.next,
+                valController: nameController,
               )),
               SizedBox(
                 height: size.height * 0.03,
               ),
               Center(
                   child: FALKTextBox(
-                emailController,
                 size.width * 0.85,
                 'Email',
                 Icon(
@@ -70,13 +70,13 @@ class EmailRegisterForm extends State<EmailRegister> {
                   size: 28,
                 ),
                 textAction: TextInputAction.next,
+                valController: emailController
               )),
               SizedBox(
                 height: size.height * 0.03,
               ),
               Center(
                   child: FALKTextBox(
-                passwordController,
                 size.width * 0.85,
                 'Password',
                 Icon(
@@ -84,6 +84,7 @@ class EmailRegisterForm extends State<EmailRegister> {
                   color: Colors.white,
                   size: 28,
                 ),
+                valController: passwordController
               )),
               SizedBox(
                 height: size.height * 0.03,
@@ -92,15 +93,12 @@ class EmailRegisterForm extends State<EmailRegister> {
                 width: size.width * 0.8,
                 child: TextButton(
                     onPressed: () {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      new EmailAuth.regAuth(nameController.text,
-                              emailController.text, passwordController.text)
-                          .register()
-                          .whenComplete(() => setState(() {
-                                isLoading = false;
-                              }));
+                      if(nameController.text == "" || passwordController.text == "" || emailController.text == ""){
+                        Fluttertoast.showToast(msg: "Please fill in all the fields");
+                        return;
+                      }else{
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ConfirmInfo(nameController.text, emailController.text, passwordController.text, 'Email')));
+                      }
                     },
                     child: Text(
                       'Register',
