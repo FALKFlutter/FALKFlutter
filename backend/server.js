@@ -8,11 +8,14 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 require("./models/user");
-mongoose.model("User");
+require("./models/categories")
+mongoose.model("User")
+mongoose.model("Categories");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(require("./routes/auth"));
+app.use(require("./routes/categories"));
 
 mongoose.connect(MONGOURL, { useNewUrlParser: true, useUnifiedTopology: true });
 
